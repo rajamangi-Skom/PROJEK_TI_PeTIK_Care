@@ -5,7 +5,6 @@ import "./Landing.css";
 const Landing = () => {
   return (
     <div className="landing-page">
-      {/* Header */}
       <header className="header">
         <div className="container">
           <div className="nav-wrapper">
@@ -35,7 +34,6 @@ const Landing = () => {
         </div>
       </header>
 
-      {/* Hero Section */}
       <section className="hero">
         <div className="container">
           <div className="hero-content">
@@ -54,7 +52,6 @@ const Landing = () => {
         </div>
       </section>
 
-      {/* Layanan Kesehatan Santri Section */}
       <section className="services-section">
         <div className="container">
           <h2 className="section-title">Layanan Kesehatan Santri</h2>
@@ -129,7 +126,6 @@ const Landing = () => {
         </div>
       </section>
 
-      {/* Features Section */}
       <section className="features-section">
         <div className="container">
           <div className="features-grid">
@@ -203,7 +199,6 @@ const Landing = () => {
         </div>
       </section>
 
-      {/* Kenapa PETIK Care Section */}
       <section className="why-section">
         <div className="container">
           <h2 className="section-title">Kenapa PETIK Care</h2>
@@ -271,7 +266,6 @@ const Landing = () => {
         </div>
       </section>
 
-      {/* Footer */}
       <footer className="footer">
         <div className="container">
           <div className="footer-content">
@@ -329,7 +323,6 @@ const Landing = () => {
                   loading="lazy"
                 ></iframe>
 
-                {/* tombol buka google maps */}
                 <a
                   href="https://www.google.com/maps/place/PeTIK+(Pesantren+Teknologi+Informasi+dan+Komunikasi)"
                   target="_blank"

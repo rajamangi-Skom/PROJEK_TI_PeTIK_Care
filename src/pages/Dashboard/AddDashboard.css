@@ -1,0 +1,332 @@
+.add-dashboard-container {
+  min-height: 100vh;
+  background: #f8f9fa;
+  font-family:
+    "Poppins",
+    -apple-system,
+    BlinkMacSystemFont,
+    "Segoe UI",
+    Roboto,
+    sans-serif;
+}
+
+.header-banner {
+  position: relative;
+  height: 500px;
+  color: white;
+  overflow: hidden;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+}
+
+.banner-background {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 1;
+  background: #018c7e;
+}
+
+.banner-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: transparent;
+  z-index: 1;
+}
+
+.banner-content {
+  position: relative;
+  z-index: 3;
+  padding: 40px 20px;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+}
+
+.header-banner .banner-content h1 {
+  font-size: 36px;
+  font-weight: 700;
+  margin: 0 0 40px 0;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+.medical-banner {
+  background: rgba(255, 255, 255, 0.12);
+  border-radius: 20px;
+  padding: 45px;
+  backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.15);
+  max-width: 650px;
+  width: 100%;
+  transition:
+    transform 0.3s ease,
+    box-shadow 0.3s ease;
+}
+
+.medical-banner:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.2);
+}
+
+.banner-text h2 {
+  font-size: 32px;
+  font-weight: 700;
+  margin: 0;
+  color: #ffffff;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+.form-container {
+  max-width: 600px;
+  margin: -30px auto 40px;
+  background: white;
+  border-radius: 16px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+  padding: 40px;
+  position: relative;
+  z-index: 10;
+}
+
+.form-header {
+  text-align: center;
+  margin-bottom: 40px;
+}
+
+.form-header h2 {
+  font-size: 24px;
+  font-weight: 600;
+  color: #333;
+  margin: 0 0 12px 0;
+}
+
+.form-header p {
+  font-size: 14px;
+  color: #666;
+  margin: 0;
+  line-height: 1.5;
+}
+
+.complaint-form {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.form-label {
+  font-size: 14px;
+  font-weight: 500;
+  color: #333;
+}
+
+.required {
+  color: #dc3545;
+}
+
+.form-textarea {
+  width: 100%;
+  min-height: 120px;
+  padding: 12px 16px;
+  border: 2px solid #e9ecef;
+  border-radius: 8px;
+  font-size: 14px;
+  font-family: inherit;
+  resize: vertical;
+  transition: border-color 0.3s ease;
+}
+
+.form-textarea:focus,
+.form-input:focus {
+  outline: none;
+  border-color: #018c7e;
+  box-shadow: 0 0 0 3px rgba(1, 140, 126, 0.1);
+}
+
+.form-input {
+  width: 100%;
+  padding: 12px 16px;
+  border: 2px solid #e9ecef;
+  border-radius: 8px;
+  font-size: 14px;
+  font-family: inherit;
+  transition: border-color 0.3s ease;
+}
+
+.input-with-icon {
+  position: relative;
+}
+
+.calendar-icon {
+  position: absolute;
+  right: 16px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: #666;
+  pointer-events: none;
+}
+
+.form-actions {
+  display: flex;
+  gap: 16px;
+  justify-content: center;
+  margin-top: 32px;
+}
+
+.submit-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 14px 28px;
+  background: #018c7e;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  text-decoration: none;
+}
+
+.submit-btn:hover {
+  background: #016b63;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(1, 140, 126, 0.3);
+}
+
+.back-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 16px;
+  background: #6c757d;
+  color: white;
+  text-decoration: none;
+  border-radius: 8px;
+  transition: all 0.3s ease;
+  font-weight: 500;
+  cursor: pointer;
+}
+
+.back-btn:hover {
+  background: #5a6268;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(108, 117, 125, 0.3);
+}
+
+.form-textarea::placeholder,
+.form-input::placeholder {
+  color: #999;
+}
+
+.form-textarea:focus,
+.form-input:focus {
+  outline: none;
+  border-color: #018c7e;
+  box-shadow: 0 0 0 3px rgba(1, 140, 126, 0.1);
+}
+
+.error-message {
+  background: #f8d7da;
+  border: 1px solid #f5c6cb;
+  color: #721c24;
+  padding: 12px 16px;
+  border-radius: 8px;
+  margin-bottom: 20px;
+  font-size: 0.9rem;
+}
+
+.success-message {
+  background: #d4edda;
+  border: 1px solid #c3e6cb;
+  color: #155724;
+  padding: 12px 16px;
+  border-radius: 8px;
+  margin-bottom: 20px;
+  font-size: 0.9rem;
+}
+.spinner-small {
+  width: 16px;
+  height: 16px;
+  border: 2px solid rgba(255, 255, 255, 0.3);
+  border-top: 2px solid white;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+  display: inline-block;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+@media (max-width: 768px) {
+  .header-banner {
+    height: 350px;
+  }
+
+  .header-banner .banner-content h1 {
+    font-size: 28px;
+    margin-bottom: 30px;
+  }
+
+  .medical-banner {
+    padding: 35px 25px;
+    margin: 0 20px;
+  }
+
+  .banner-text h2 {
+    font-size: 26px;
+  }
+
+  .form-container {
+    margin: -20px 20px 20px;
+    padding: 30px 20px;
+  }
+
+  .form-actions {
+    flex-direction: column;
+  }
+
+  .submit-btn,
+  .back-btn {
+    width: 100%;
+    justify-content: center;
+  }
+}
+
+@media (max-width: 480px) {
+  .header-banner {
+    height: 300px;
+  }
+
+  .header-banner .banner-content h1 {
+    font-size: 24px;
+    margin-bottom: 20px;
+  }
+
+  .medical-banner {
+    padding: 25px 20px;
+  }
+
+  .banner-text h2 {
+    font-size: 22px;
+  }
+
+  .form-header h2 {
+    font-size: 20px;
+  }
+}
