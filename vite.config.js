@@ -1,15 +1,15 @@
 import { defineConfig } from "vite";
 import react from "@vitejs/plugin-react";
 
-// https://vite.dev/config/
-export default {
+export default defineConfig({
+  plugins: [react()],
   server: {
     proxy: {
       "/api": {
-        target: "https://syangkan.petik.or.id",
+        target: "https://petikcare.petik.or.id",
         changeOrigin: true,
         secure: false,
       },
     },
   },
-};
+});
