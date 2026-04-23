@@ -34,7 +34,7 @@ const RiwayatKeluhan = () => {
           headers: {
             Authorization: `Bearer ${token}`,
           },
-          timeout: 10000, // 10 detik timeout
+          timeout: 10000, 
         });
 
         let allComplaints = res.data.data || res.data || [];
@@ -211,9 +211,9 @@ const RiwayatKeluhan = () => {
             <FiCalendar />
             <span>Riwayat Keluhan</span>
           </NavLink>
-          <NavLink to="/dashboard/settings" className="sidebar-btn">
+          <NavLink to="/dashboard/profile" className="sidebar-btn">
             <FiSettings />
-            <span>Pengaturan</span>
+            <span>Profile</span>
           </NavLink>
           <button
             className="sidebar-btn logout-btn"

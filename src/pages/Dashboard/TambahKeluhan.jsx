@@ -121,9 +121,9 @@ const TambahKeluhan = () => {
             <FiCalendar />
             <span>Riwayat Keluhan</span>
           </NavLink>
-          <NavLink to="/dashboard/settings" className="sidebar-btn">
+          <NavLink to="/dashboard/profile" className="sidebar-btn">
             <FiSettings />
-            <span>Pengaturan</span>
+            <span>Profile</span>
           </NavLink>
           <button
             className="sidebar-btn logout-btn"
@@ -173,14 +173,14 @@ const TambahKeluhan = () => {
           <h3>Form Pengajuan Keluhan</h3>
           <form className="complaint-form" onSubmit={handleSubmit}>
             <div className="form-group">
-              <label htmlFor="keluhan">Judul Keluhan</label>
+              <label htmlFor="keluhan">Apa Keluhan Anda</label>
               <input
                 type="text"
                 id="keluhan"
                 name="keluhan"
                 value={formData.keluhan}
                 onChange={handleChange}
-                placeholder="Masukkan judul keluhan singkat"
+                placeholder="Cantumkan keluhan anda"
                 required
               />
             </div>

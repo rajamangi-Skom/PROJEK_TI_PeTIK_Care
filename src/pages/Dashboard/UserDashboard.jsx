@@ -95,7 +95,46 @@ const UserDashboard = () => {
 
       for (const endpoint of endpoints) {
         try {
-          const res = await axios.get(endpoint, {
+          let url = endpoint;
+
+          if (endpoint === "/api/users/search") {
+            // Coba dapatkan user ID dari token JWT yang sedang login
+            let userId = null;
+
+            // Coba decode token JWT
+            try {
+              const tokenPayload = JSON.parse(atob(token.split(".")[1]));
+              userId =
+                tokenPayload.id || tokenPayload.userId || tokenPayload.sub;
+              console.log("Decoded user ID from token:", userId);
+            } catch (e) {
+              console.log("Failed to decode token:", e);
+            }
+
+            // Jika gagal decode, coba dari localStorage
+            if (!userId) {
+              userId = localStorage.getItem("userId");
+            }
+
+            // Jika masih tidak ada, coba dari user object
+            if (!userId) {
+              const storedUser = JSON.parse(
+                localStorage.getItem("user") || "{}",
+              );
+              userId = storedUser.id;
+            }
+
+            // Fallback terakhir
+            if (!userId) {
+              console.log("Using fallback user ID");
+              userId = "current-user";
+            }
+
+            url = `/api/users/search/${userId}`;
+            console.log("Using API endpoint:", url);
+          }
+
+          const res = await axios.get(url, {
             headers: {
               Authorization: `Bearer ${token}`,
             },
@@ -206,9 +245,9 @@ const UserDashboard = () => {
             <FiCalendar />
             <span>Riwayat Keluhan</span>
           </NavLink>
-          <NavLink to="/dashboard/settings" className="sidebar-btn">
+          <NavLink to="/dashboard/profile" className="sidebar-btn">
             <FiSettings />
-            <span>Pengaturan</span>
+            <span>Profile</span>
           </NavLink>
           <button
             className="sidebar-btn logout-btn"
@@ -474,299 +513,82 @@ const UserDashboard = () => {
               maxWidth: "600px",
               maxHeight: "80vh",
               overflow: "auto",
-              boxShadow:
-                "0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04)",
             }}
             onClick={(e) => e.stopPropagation()}
           >
-            <div
-              className="modal-header"
-              style={{
-                padding: "24px 24px 16px",
-                borderBottom: "1px solid #e5e7eb",
-                display: "flex",
-                justifyContent: "space-between",
-                alignItems: "center",
-              }}
-            >
-              <h2
+            {/* HEADER */}
+            <div style={{ padding: "24px", borderBottom: "1px solid #eee" }}>
+              <h2>Detail Keluhan</h2>
+            </div>
+
+            {/* BODY */}
+            <div style={{ padding: "24px" }}>
+              {/* Avatar */}
+              <div
+                className="user-avatar"
                 style={{
-                  margin: 0,
-                  fontSize: "24px",
-                  fontWeight: "bold",
-                  color: "#1f2937",
-                }}
-              >
-                Detail Keluhan
-              </h2>
-              <button
-                onClick={closeModal}
-                style={{
-                  background: "none",
-                  border: "none",
-                  fontSize: "24px",
-                  cursor: "pointer",
-                  color: "#6b7280",
-                  padding: "0",
-                  width: "32px",
-                  height: "32px",
+                  width: "60px",
+                  height: "60px",
+                  borderRadius: "50%",
+                  overflow: "hidden",
+                  border: "2px solid #e5e7eb",
                   display: "flex",
                   alignItems: "center",
                   justifyContent: "center",
-                  borderRadius: "6px",
-                  transition: "all 0.2s",
-                }}
-                onMouseOver={(e) =>
-                  (e.target.style.backgroundColor = "#f3f4f6")
-                }
-                onMouseOut={(e) =>
-                  (e.target.style.backgroundColor = "transparent")
-                }
-              >
-                ×
-              </button>
-            </div>
-
-            <div className="modal-body" style={{ padding: "24px" }}>
-              {/* ID Section */}
-              <div
-                style={{
-                  backgroundColor: "#f8fafc",
-                  padding: "16px",
-                  borderRadius: "8px",
-                  marginBottom: "20px",
-                  border: "1px solid #e2e8f0",
+                  background: "#f3f4f6",
                 }}
               >
-                <div
-                  style={{
-                    display: "flex",
-                    justifyContent: "space-between",
-                    alignItems: "center",
-                  }}
-                >
-                  <div>
-                    <h3
-                      style={{
-                        margin: "0 0 4px 0",
-                        fontSize: "14px",
-                        color: "#64748b",
-                        fontWeight: "500",
-                      }}
-                    >
-                      ID Keluhan
-                    </h3>
-                    <p
-                      style={{
-                        margin: 0,
-                        fontSize: "20px",
-                        fontWeight: "bold",
-                        color: "#1e293b",
-                      }}
-                    >
-                      No. {complaints.indexOf(selectedComplaint) + 1}
-                    </p>
-                  </div>
-                  <div
-                    style={{
-                      backgroundColor: getStatusColor(selectedComplaint.status),
-                      color: "white",
-                      padding: "6px 12px",
-                      borderRadius: "20px",
-                      fontSize: "12px",
-                      fontWeight: "bold",
-                      textTransform: "uppercase",
-                    }}
-                  >
-                    {getStatusText(selectedComplaint.status)}
-                  </div>
-                </div>
+                <img
+                  src={`https://api.dicebear.com/7.x/avataaars/svg?seed=${user?.name || "user"}`}
+                  alt="User Avatar"
+                  style={{ width: "100%", height: "100%" }}
+                />
               </div>
 
-              {/* Informasi Keluhan */}
-              <div style={{ marginBottom: "24px" }}>
-                <h3
-                  style={{
-                    margin: "0 0 16px 0",
-                    fontSize: "18px",
-                    fontWeight: "600",
-                    color: "#1f2937",
-                  }}
-                >
-                  Informasi Keluhan
-                </h3>
-
-                <div style={{ display: "grid", gap: "16px" }}>
-                  <div>
-                    <label
-                      style={{
-                        display: "block",
-                        fontSize: "12px",
-                        color: "#6b7280",
-                        marginBottom: "4px",
-                        fontWeight: "500",
-                      }}
-                    >
-                      Judul Keluhan
-                    </label>
-                    <div
-                      style={{
-                        backgroundColor: "#f9fafb",
-                        padding: "12px",
-                        borderRadius: "6px",
-                        border: "1px solid #e5e7eb",
-                        fontSize: "14px",
-                        color: "#1f2937",
-                      }}
-                    >
-                      {selectedComplaint.title ||
-                        selectedComplaint.keluhan ||
-                        "Tidak ada judul"}
-                    </div>
-                  </div>
-
-                  <div>
-                    <label
-                      style={{
-                        display: "block",
-                        fontSize: "12px",
-                        color: "#6b7280",
-                        marginBottom: "4px",
-                        fontWeight: "500",
-                      }}
-                    >
-                      Keterangan
-                    </label>
-                    <div
-                      style={{
-                        backgroundColor: "#f9fafb",
-                        padding: "12px",
-                        borderRadius: "6px",
-                        border: "1px solid #e5e7eb",
-                        fontSize: "14px",
-                        color: "#1f2937",
-                        minHeight: "80px",
-                        whiteSpace: "pre-wrap",
-                      }}
-                    >
-                      {selectedComplaint.description ||
-                        selectedComplaint.keterangan ||
-                        "Tidak ada keterangan"}
-                    </div>
-                  </div>
-                </div>
-              </div>
-
-              {/* Informasi Waktu */}
-              <div style={{ marginBottom: "24px" }}>
-                <h3
-                  style={{
-                    margin: "0 0 16px 0",
-                    fontSize: "18px",
-                    fontWeight: "600",
-                    color: "#1f2937",
-                  }}
-                >
-                  Informasi Waktu
-                </h3>
-
-                <div
-                  style={{
-                    display: "grid",
-                    gridTemplateColumns: "1fr 1fr",
-                    gap: "16px",
-                  }}
-                >
-                  <div>
-                    <label
-                      style={{
-                        display: "block",
-                        fontSize: "12px",
-                        color: "#6b7280",
-                        marginBottom: "4px",
-                        fontWeight: "500",
-                      }}
-                    >
-                      Tanggal Pengajuan
-                    </label>
-                    <div
-                      style={{
-                        backgroundColor: "#f9fafb",
-                        padding: "12px",
-                        borderRadius: "6px",
-                        border: "1px solid #e5e7eb",
-                        fontSize: "14px",
-                        color: "#1f2937",
-                      }}
-                    >
-                      {formatDate(
-                        selectedComplaint.createdAt ||
-                          selectedComplaint.created_at,
-                      )}
-                    </div>
-                  </div>
-
-                  {selectedComplaint.updatedAt && (
-                    <div>
-                      <label
-                        style={{
-                          display: "block",
-                          fontSize: "12px",
-                          color: "#6b7280",
-                          marginBottom: "4px",
-                          fontWeight: "500",
-                        }}
-                      >
-                        Terakhir Update
-                      </label>
-                      <div
-                        style={{
-                          backgroundColor: "#f9fafb",
-                          padding: "12px",
-                          borderRadius: "6px",
-                          border: "1px solid #e5e7eb",
-                          fontSize: "14px",
-                          color: "#1f2937",
-                        }}
-                      >
-                        {formatDate(selectedComplaint.updatedAt)}
-                      </div>
-                    </div>
-                  )}
-                </div>
-              </div>
-            </div>
-
-            <div
-              className="modal-footer"
-              style={{
-                padding: "16px 24px",
-                borderTop: "1px solid #e5e7eb",
-                display: "flex",
-                justifyContent: "flex-end",
-                gap: "12px",
-              }}
-            >
-              <button
-                onClick={closeModal}
+              {/* STATUS */}
+              <p
                 style={{
-                  padding: "10px 20px",
-                  backgroundColor: "#6b7280",
+                  backgroundColor: getStatusColor(selectedComplaint.status),
                   color: "white",
-                  border: "none",
-                  borderRadius: "6px",
-                  cursor: "pointer",
-                  fontSize: "14px",
-                  fontWeight: "500",
-                  transition: "background-color 0.2s",
+                  padding: "6px 12px",
+                  borderRadius: "20px",
+                  fontSize: "12px",
+                  fontWeight: "bold",
+                  display: "inline-block",
+                  marginTop: "10px",
                 }}
-                onMouseOver={(e) =>
-                  (e.target.style.backgroundColor = "#4b5563")
-                }
-                onMouseOut={(e) => (e.target.style.backgroundColor = "#6b7280")}
               >
-                Tutup
-              </button>
+                {getStatusText(selectedComplaint.status)}
+              </p>
+
+              {/* INFORMASI */}
+              <div style={{ marginTop: "20px" }}>
+                <h3>Judul</h3>
+                <p>
+                  {selectedComplaint.title ||
+                    selectedComplaint.keluhan ||
+                    "Tidak ada judul"}
+                </p>
+
+                <h3>Keterangan</h3>
+                <p>
+                  {selectedComplaint.description ||
+                    selectedComplaint.keterangan ||
+                    "Tidak ada keterangan"}
+                </p>
+
+                <h3>Tanggal</h3>
+                <p>
+                  {formatDate(
+                    selectedComplaint.createdAt || selectedComplaint.created_at,
+                  )}
+                </p>
+              </div>
+            </div>
+
+            {/* FOOTER */}
+            <div style={{ padding: "16px", textAlign: "right" }}>
+              <button onClick={closeModal}>Tutup</button>
             </div>
           </div>
         </div>
