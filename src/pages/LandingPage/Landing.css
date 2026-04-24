@@ -76,6 +76,7 @@
   font-weight: 500;
   cursor: pointer;
   transition: background 0.3s ease;
+  text-decoration: none;
 }
 
 .about-btn:hover {
@@ -120,6 +121,7 @@
   cursor: pointer;
   transition: all 0.3s ease;
   box-shadow: 0 4px 15px rgba(1, 140, 126, 0.3);
+  text-decoration: none;
 }
 
 .cta-button:hover {
@@ -133,7 +135,7 @@
   background-size: cover;
   background-position: center;
   width: 100%;
-  aspect-ratio: 16 / 7; 
+  aspect-ratio: 16 / 7;
 }
 
 .services-section {
