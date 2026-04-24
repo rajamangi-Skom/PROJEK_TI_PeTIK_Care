@@ -34,7 +34,7 @@ const RiwayatKeluhan = () => {
           headers: {
             Authorization: `Bearer ${token}`,
           },
-          timeout: 10000, 
+          timeout: 10000,
         });
 
         let allComplaints = res.data.data || res.data || [];
@@ -54,6 +54,16 @@ const RiwayatKeluhan = () => {
         );
         const filteredComplaints = mergedComplaints.filter(
           (complaint) => !deletedIds.includes(complaint.id),
+        );
+
+        console.log(
+          "RiwayatKeluhan - Complaints with status:",
+          filteredComplaints.map((c) => ({
+            id: c.id,
+            title: c.keluhan || c.title,
+            status: c.status,
+            statusType: typeof c.status,
+          })),
         );
 
         setComplaints(filteredComplaints);
@@ -78,8 +88,16 @@ const RiwayatKeluhan = () => {
   }, []);
 
   const total = complaints.length;
-  const pending = complaints.filter((c) => c.status === "pending").length;
-  const selesai = complaints.filter((c) => c.status === "completed").length;
+  const pending = complaints.filter(
+    (c) =>
+      c.status?.toLowerCase() === "pending" ||
+      c.status?.toLowerCase() === "menunggu",
+  ).length;
+  const selesai = complaints.filter(
+    (c) =>
+      c.status?.toLowerCase() === "completed" ||
+      c.status?.toLowerCase() === "selesai",
+  ).length;
 
   const handleViewDetail = (item) => {
     setSelectedComplaint(item);
@@ -173,7 +191,7 @@ const RiwayatKeluhan = () => {
 
           setComplaints((prev) => prev.filter((c) => c.id !== id));
           alert(`Keluhan No. ${nomorUrut} berhasil dihapus dari server!`);
-          return; // Exit function
+          return;
         } catch (err) {
           const deletedIds = JSON.parse(
             localStorage.getItem("deletedComplaints") || "[]",
@@ -463,7 +481,6 @@ const RiwayatKeluhan = () => {
           </div>
         </div>
 
-        {/* Tombol Reset Data */}
         <div
           style={{
             padding: "20px",
@@ -490,7 +507,6 @@ const RiwayatKeluhan = () => {
         </div>
       </div>
 
-      {/* Modal Detail Keluhan */}
       {showModal && selectedComplaint && (
         <div
           className="modal-overlay"
@@ -571,7 +587,6 @@ const RiwayatKeluhan = () => {
             </div>
 
             <div className="modal-body" style={{ padding: "24px" }}>
-              {/* ID Section */}
               <div
                 style={{
                   backgroundColor: "#f8fafc",
@@ -626,7 +641,6 @@ const RiwayatKeluhan = () => {
                 </div>
               </div>
 
-              {/* Informasi Keluhan */}
               <div style={{ marginBottom: "24px" }}>
                 <h3
                   style={{
@@ -700,7 +714,6 @@ const RiwayatKeluhan = () => {
                 </div>
               </div>
 
-              {/* Informasi Waktu */}
               <div style={{ marginBottom: "24px" }}>
                 <h3
                   style={{

@@ -59,6 +59,16 @@ const UserDashboard = () => {
           (complaint) => !deletedIds.includes(complaint.id),
         );
 
+        console.log(
+          "Complaints with status:",
+          filteredComplaints.map((c) => ({
+            id: c.id,
+            title: c.keluhan || c.title,
+            status: c.status,
+            statusType: typeof c.status,
+          })),
+        );
+
         setComplaints(filteredComplaints);
       } catch (err) {
         if (err.response?.status === 401) {
@@ -98,10 +108,8 @@ const UserDashboard = () => {
           let url = endpoint;
 
           if (endpoint === "/api/users/search") {
-            // Coba dapatkan user ID dari token JWT yang sedang login
             let userId = null;
 
-            // Coba decode token JWT
             try {
               const tokenPayload = JSON.parse(atob(token.split(".")[1]));
               userId =
@@ -111,12 +119,10 @@ const UserDashboard = () => {
               console.log("Failed to decode token:", e);
             }
 
-            // Jika gagal decode, coba dari localStorage
             if (!userId) {
               userId = localStorage.getItem("userId");
             }
 
-            // Jika masih tidak ada, coba dari user object
             if (!userId) {
               const storedUser = JSON.parse(
                 localStorage.getItem("user") || "{}",
@@ -124,7 +130,6 @@ const UserDashboard = () => {
               userId = storedUser.id;
             }
 
-            // Fallback terakhir
             if (!userId) {
               console.log("Using fallback user ID");
               userId = "current-user";
@@ -173,8 +178,16 @@ const UserDashboard = () => {
   };
 
   const total = complaints.length;
-  const pending = complaints.filter((c) => c.status === "pending").length;
-  const selesai = complaints.filter((c) => c.status === "completed").length;
+  const pending = complaints.filter(
+    (c) =>
+      c.status?.toLowerCase() === "pending" ||
+      c.status?.toLowerCase() === "menunggu",
+  ).length;
+  const selesai = complaints.filter(
+    (c) =>
+      c.status?.toLowerCase() === "completed" ||
+      c.status?.toLowerCase() === "selesai",
+  ).length;
 
   const handleViewDetail = (item) => {
     setSelectedComplaint(item);
@@ -486,7 +499,6 @@ const UserDashboard = () => {
         </div>
       </div>
 
-      {/* Modal Detail Keluhan */}
       {showModal && selectedComplaint && (
         <div
           className="modal-overlay"
@@ -516,14 +528,11 @@ const UserDashboard = () => {
             }}
             onClick={(e) => e.stopPropagation()}
           >
-            {/* HEADER */}
             <div style={{ padding: "24px", borderBottom: "1px solid #eee" }}>
               <h2>Detail Keluhan</h2>
             </div>
 
-            {/* BODY */}
             <div style={{ padding: "24px" }}>
-              {/* Avatar */}
               <div
                 className="user-avatar"
                 style={{
@@ -545,7 +554,6 @@ const UserDashboard = () => {
                 />
               </div>
 
-              {/* STATUS */}
               <p
                 style={{
                   backgroundColor: getStatusColor(selectedComplaint.status),
@@ -561,7 +569,6 @@ const UserDashboard = () => {
                 {getStatusText(selectedComplaint.status)}
               </p>
 
-              {/* INFORMASI */}
               <div style={{ marginTop: "20px" }}>
                 <h3>Judul</h3>
                 <p>
@@ -586,7 +593,6 @@ const UserDashboard = () => {
               </div>
             </div>
 
-            {/* FOOTER */}
             <div style={{ padding: "16px", textAlign: "right" }}>
               <button onClick={closeModal}>Tutup</button>
             </div>
