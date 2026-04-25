@@ -58,6 +58,20 @@
   margin: 0 15px;
 }
 
+.dashboard-container .sidebar .logout-btn:hover {
+  background: rgba(255, 255, 255, 0.1) !important;
+  transform: translateX(5px) !important;
+  color: white !important;
+}
+
+.dashboard-container .sidebar .logout-btn:hover svg {
+  color: white !important;
+}
+
+.dashboard-container .sidebar .logout-btn:hover span {
+  color: white !important;
+}
+
 .sidebar-btn:hover {
   background: rgba(255, 255, 255, 0.1);
   transform: translateX(5px);
