@@ -233,7 +233,7 @@ const UserDashboard = () => {
           <h3>Menu</h3>
         </div>
         <nav className="sidebar-nav">
-          <NavLink to="/dashboard" className="sidebar-btn" end>
+          <NavLink to="/dashboard" className="sidebar-btn" >
             <FiHome />
             <span>Home</span>
           </NavLink>
@@ -286,7 +286,7 @@ const UserDashboard = () => {
       <div className="main-content">
         <div className="dashboard-header">
           <div className="header-top">
-            <Link to="/" className="back-btn">
+            <Link to="/landing" className="back-btn">
               <TiArrowBack /> Kembali ke Beranda
             </Link>
           </div>

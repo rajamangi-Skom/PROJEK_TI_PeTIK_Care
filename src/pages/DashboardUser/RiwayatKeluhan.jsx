@@ -34,7 +34,7 @@ const RiwayatKeluhan = () => {
           headers: {
             Authorization: `Bearer ${token}`,
           },
-          timeout: 10000, 
+          timeout: 10000,
         });
 
         let allComplaints = res.data.data || res.data || [];
@@ -199,7 +199,7 @@ const RiwayatKeluhan = () => {
           <h3>Menu</h3>
         </div>
         <nav className="sidebar-nav">
-          <NavLink to="/dashboard" className="sidebar-btn" end>
+          <NavLink to="" className="sidebar-btn" end>
             <FiHome />
             <span>Home</span>
           </NavLink>
