@@ -3,7 +3,7 @@ import { Link, NavLink, useNavigate } from "react-router-dom";
 import "./UserDashboard.css";
 import "./UserDashboard-resp.css";
 import { TiArrowBack } from "react-icons/ti";
-import axios from "axios";
+import AxiosInstance from "../utils/AxiosInstance";
 import {
   FiSave,
   FiX,
@@ -66,16 +66,9 @@ const TambahKeluhan = () => {
       };
 
       try {
-        const response = await axios.post(
-          `/api/complaints/create`,
+        const response = await AxiosInstance.post(
+          `/complaints/create`,
           requestData,
-          {
-            headers: {
-              Authorization: `Bearer ${token}`,
-              "Content-Type": "application/json",
-            },
-            withCredentials: true,
-          },
         );
 
         alert("Keluhan berhasil dikirim!");

@@ -3,7 +3,7 @@ import { Link, NavLink } from "react-router-dom";
 import "./UserDashboard.css";
 import "./UserDashboard-resp.css";
 import "./Profile.css";
-import axios from "axios";
+import AxiosInstance from "../utils/AxiosInstance";
 import { TiArrowBack } from "react-icons/ti";
 import {
   FiHome,
@@ -39,11 +39,11 @@ const Profile = () => {
       }
 
       const endpoints = [
-        "/api/users/search",
-        "/api/user/profile",
-        "/api/users/me",
-        "/api/auth/me",
-        "/api/me",
+        "/users/search",
+        "/user/profile",
+        "/users/me",
+        "/auth/me",
+        "/me",
       ];
 
       let userData = null;
@@ -52,14 +52,13 @@ const Profile = () => {
         try {
           let url = endpoint;
 
-          if (endpoint === "/api/users/search") {
+          if (endpoint === "/users/search") {
             let userId = null;
 
             try {
               const tokenPayload = JSON.parse(atob(token.split(".")[1]));
               userId =
                 tokenPayload.id || tokenPayload.userId || tokenPayload.sub;
-              console.log("Decoded user ID from token:", userId);
             } catch (e) {
               console.log("Failed to decode token:", e);
             }
@@ -76,27 +75,19 @@ const Profile = () => {
             }
 
             if (!userId) {
-              console.log("Using fallback user ID");
               userId = "current-user";
             }
 
-            url = `/api/users/search/${userId}`;
-            console.log("Using API endpoint:", url);
+            url = `/users/search/${userId}`;
           }
 
-          const res = await axios.get(url, {
-            headers: {
-              Authorization: `Bearer ${token}`,
-            },
-          });
+          const res = await AxiosInstance.get(url);
 
           if (res.data.success && res.data.data) {
             userData = res.data.data;
           } else {
             userData = res.data;
           }
-
-          console.log("API Response:", userData);
 
           if (userData.nama) {
             userData.name = userData.nama;
@@ -110,8 +101,20 @@ const Profile = () => {
         }
       }
 
+      const storedUser = JSON.parse(localStorage.getItem("user") || "{}");
+
+      if (userData) {
+        userData.email =
+          userData.email ||
+          storedUser.email ||
+          `${(userData.name || "user").toLowerCase().replace(/\s+/g, "")}@gmail.com`;
+        userData.createdAt = userData.createdAt || new Date().toISOString();
+        userData.phone = userData.phone || "-";
+      }
+
       if (!userData) {
         const storedUser = localStorage.getItem("user");
+
         if (storedUser) {
           userData = JSON.parse(storedUser);
           if (userData.nama && !userData.name) {
@@ -124,14 +127,27 @@ const Profile = () => {
             name: userName,
             email: "user@example.com",
             phone: "-",
+            createdAt: new Date().toISOString(),
           };
         }
       }
 
-      setUser(userData);
+      const loginUserData = JSON.parse(localStorage.getItem("user") || "{}");
+
+      if (userData) {
+        userData.email =
+          userData.email ||
+          loginUserData.email ||
+          `${(userData.name || "user").toLowerCase().replace(/\s+/g, "")}@gmail.com`;
+        userData.createdAt = userData.createdAt || new Date().toISOString();
+        userData.phone = userData.phone || "-";
+      }
+
+      const enhancedUser = { ...userData };
+      setUser(enhancedUser);
       setFormData({
-        name: userData.name || "",
-        email: userData.email || "",
+        name: enhancedUser.name || "",
+        email: enhancedUser.email || "",
       });
     } catch (error) {
       setError("Gagal memuat data profile");
@@ -536,7 +552,6 @@ const Profile = () => {
           </div>
         </div>
       </div>
-
     </div>
   );
 };

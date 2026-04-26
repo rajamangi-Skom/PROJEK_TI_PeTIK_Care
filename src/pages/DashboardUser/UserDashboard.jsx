@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { Link, NavLink } from "react-router-dom";
 import "./UserDashboard.css";
 import "./UserDashboard-resp.css";
-import axios from "axios";
+import AxiosInstance from "../utils/AxiosInstance";
 import { TiArrowBack } from "react-icons/ti";
 import { FaBookMedical } from "react-icons/fa";
 import {
@@ -34,11 +34,7 @@ const UserDashboard = () => {
 
         await fetchUserData();
 
-        const res = await axios.get(`/api/complaints/mycomplaints`, {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        });
+        const res = await AxiosInstance.get(`/complaints/mycomplaints`);
 
         let allComplaints = res.data.data || res.data || [];
 
@@ -95,10 +91,11 @@ const UserDashboard = () => {
       const token = localStorage.getItem("token");
 
       const endpoints = [
-        "/api/user/profile",
-        "/api/users/me",
-        "/api/auth/me",
-        "/api/me",
+        "/users/search",
+        "/user/profile",
+        "/users/me",
+        "/auth/me",
+        "/me",
       ];
 
       let userData = null;
@@ -107,7 +104,7 @@ const UserDashboard = () => {
         try {
           let url = endpoint;
 
-          if (endpoint === "/api/users/search") {
+          if (endpoint === "/users/search") {
             let userId = null;
 
             try {
@@ -135,15 +132,10 @@ const UserDashboard = () => {
               userId = "current-user";
             }
 
-            url = `/api/users/search/${userId}`;
-            console.log("Using API endpoint:", url);
+            url = `/users/search/${userId}`;
           }
 
-          const res = await axios.get(url, {
-            headers: {
-              Authorization: `Bearer ${token}`,
-            },
-          });
+          const res = await AxiosInstance.get(url);
           userData = res.data;
           if (userData.nama) {
             userData.name = userData.nama;

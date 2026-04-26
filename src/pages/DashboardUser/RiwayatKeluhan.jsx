@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { Link, NavLink } from "react-router-dom";
 import "./UserDashboard.css";
 import "./UserDashboard-resp.css";
-import axios from "axios";
+import AxiosInstance from "../utils/AxiosInstance";
 import { TiArrowBack } from "react-icons/ti";
 import {
   FiHome,
@@ -30,12 +30,7 @@ const RiwayatKeluhan = () => {
           return;
         }
 
-        const res = await axios.get(`/api/complaints/mycomplaints`, {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-          timeout: 10000,
-        });
+        const res = await AxiosInstance.get(`/complaints/mycomplaints`);
 
         let allComplaints = res.data.data || res.data || [];
 
@@ -179,20 +174,22 @@ const RiwayatKeluhan = () => {
       try {
         const token = localStorage.getItem("token");
 
-        const endpoint = `/api/complaints/mycomplaints/${id}`;
+        const endpoint = `/complaints/dropcomplaint/${id}`;
+        console.log("Attempting delete with official API endpoint:", endpoint);
 
         try {
-          const response = await axios.delete(endpoint, {
-            headers: {
-              Authorization: `Bearer ${token}`,
-              "Content-Type": "application/json",
-            },
-          });
+          const response = await AxiosInstance.delete(endpoint);
+          console.log("Delete successful:", response);
 
           setComplaints((prev) => prev.filter((c) => c.id !== id));
           alert(`Keluhan No. ${nomorUrut} berhasil dihapus dari server!`);
           return;
-        } catch (err) {
+        } catch (apiError) {
+          console.log(
+            "API delete failed, using localStorage fallback:",
+            apiError.response?.status,
+          );
+
           const deletedIds = JSON.parse(
             localStorage.getItem("deletedComplaints") || "[]",
           );
@@ -205,9 +202,11 @@ const RiwayatKeluhan = () => {
           }
 
           setComplaints((prev) => prev.filter((c) => c.id !== id));
-          alert(`Keluhan No. ${nomorUrut} berhasil dihapus!`);
+          alert(`Keluhan No. ${nomorUrut} berhasil dihapus dari tampilan!`);
         }
-      } catch (error) {}
+      } catch (error) {
+        console.error("Error in handleDelete:", error);
+      }
     }
   };
   return (
