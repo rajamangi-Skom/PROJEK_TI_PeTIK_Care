@@ -10,11 +10,9 @@ import {
   FiPaperclip,
   FiSettings,
   FiCalendar,
-  FiTrash2,
   FiLogOut,
   FiUser,
   FiMail,
-  FiEdit2,
 } from "react-icons/fi";
 
 const Profile = () => {

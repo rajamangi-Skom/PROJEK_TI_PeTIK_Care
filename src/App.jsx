@@ -1,12 +1,12 @@
 import { Routes, Route } from "react-router-dom";
 import React from "react";
-import Dashboard from "./pages/Dashboard/UserDashboard";
-import TambahKeluhan from "./pages/Dashboard/TambahKeluhan";
-import RiwayatKeluhan from "./pages/Dashboard/RiwayatKeluhan";
-import Profile from "./pages/Dashboard/Profile";
-import Layout from "./pages/Layout/Layout";
+import Dashboard from "./pages/DashboardUser/UserDashboard";
+import TambahKeluhan from "./pages/DashboardUser/TambahKeluhan";
+import RiwayatKeluhan from "./pages/DashboardUser/RiwayatKeluhan";
+import Profile from "./pages/DashboardUser/Profile";
 import Landing from "./pages/LandingPage/Landing";
 import Login from "./pages/Login/Login";
+import DashboardAdmin from "./pages/DashboardAdmin/DashboardAdmin";
 
 function App() {
   return (
@@ -17,9 +17,7 @@ function App() {
       <Route path="/dashboard/add" element={<TambahKeluhan />} />
       <Route path="/dashboard/history" element={<RiwayatKeluhan />} />
       <Route path="/dashboard/profile" element={<Profile />} />
-      <Route path="/layout" element={<Layout />}>
-        <Route path="dashboard" element={<Dashboard />} />
-      </Route>
+      <Route path="/dashboard/admin" element={<DashboardAdmin />} />
     </Routes>
   );
 }

@@ -246,7 +246,7 @@ const UserDashboard = () => {
           <h3>Menu</h3>
         </div>
         <nav className="sidebar-nav">
-          <NavLink to="/dashboard" className="sidebar-btn" end>
+          <NavLink to="/dashboard" className="sidebar-btn" >
             <FiHome />
             <span>Home</span>
           </NavLink>

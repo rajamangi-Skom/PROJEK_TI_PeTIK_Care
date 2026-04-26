@@ -217,7 +217,7 @@ const RiwayatKeluhan = () => {
           <h3>Menu</h3>
         </div>
         <nav className="sidebar-nav">
-          <NavLink to="/dashboard" className="sidebar-btn" end>
+          <NavLink to="" className="sidebar-btn" end>
             <FiHome />
             <span>Home</span>
           </NavLink>
