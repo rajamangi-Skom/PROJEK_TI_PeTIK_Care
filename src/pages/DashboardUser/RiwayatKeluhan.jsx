@@ -30,8 +30,10 @@ const RiwayatKeluhan = () => {
           return;
         }
 
+
         const res = await AxiosInstance.get(`/complaints/mycomplaints`);
 
+      
         let allComplaints = res.data.data || res.data || [];
 
         const editedData = JSON.parse(
