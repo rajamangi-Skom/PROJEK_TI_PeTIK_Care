@@ -9,12 +9,12 @@ const Landing = () => {
         <div className="container">
           <div className="nav-wrapper">
             <div className="logo">
-              <span className="logo-text">PETIK Care</span>
+              <span className="logo-text">PeTIK Care</span>
             </div>
             <nav className="nav-menu">
               <ul>
                 <li>
-                  <a href="#beranda">Beranda</a>
+                  <a href="/landing">Beranda</a>
                 </li>
                 <li>
                   <a href="#layanan">Layanan</a>
@@ -22,14 +22,8 @@ const Landing = () => {
                 <li>
                   <Link to="/dashboard">Dashboard</Link>
                 </li>
-                <li>
-                  <a href="#tentang">Kontak</a>
-                </li>
               </ul>
             </nav>
-            <Link to="/login" className="about-btn">
-              Masuk
-            </Link>
           </div>
         </div>
       </header>
@@ -52,7 +46,7 @@ const Landing = () => {
         </div>
       </section>
 
-      <section className="services-section">
+      <section className="services-section" id="layanan">
         <div className="container">
           <h2 className="section-title">Layanan Kesehatan Santri</h2>
           <div className="services-grid">
@@ -281,13 +275,10 @@ const Landing = () => {
               <h4>Navigasi</h4>
               <ul>
                 <li>
-                  <a href="#">Layanan</a>
+                  <a href="#layanan">Layanan</a>
                 </li>
                 <li>
                   <Link to="/dashboard">Dashboard</Link>
-                </li>
-                <li>
-                  <a href="#">Kontak</a>
                 </li>
               </ul>
             </div>
