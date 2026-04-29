@@ -24,6 +24,7 @@
     "recharts": "^3.8.1",
     "router-dom": "^3.0.3",
     "sweetalert2": "^11.26.24"
+
   },
   "devDependencies": {
     "@eslint/js": "^9.39.1",

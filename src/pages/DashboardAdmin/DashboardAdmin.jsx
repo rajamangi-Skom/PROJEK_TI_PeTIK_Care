@@ -1,7 +1,9 @@
 import React, { useEffect, useState } from "react";
 import AxiosInstance from "../utils/AxiosInstance";
 import "./DashboardAdmin.css";
+
 import Swal from "sweetalert2";
+
 
 import {
   FiUsers,
@@ -10,31 +12,38 @@ import {
   FiEdit,
   FiTrash,
   FiHome,
+
   FiX,
   FiSearch,
+
 } from "react-icons/fi";
 
 const DashboardAdmin = () => {
   const [menu, setMenu] = useState("dashboard");
   const [loading, setLoading] = useState(true);
+
   const [admin, setAdmin] = useState(null);
 
   const [users, setUsers] = useState([]);
   const [searchUser, setSearchUser] = useState("");
+
   const [formUser, setFormUser] = useState({
     nama: "",
     email: "",
     password: "",
     role: "",
   });
+
   const [editUserId, setEditUserId] = useState(null);
 
   const [medicines, setMedicines] = useState([]);
   const [searchMedicine, setSearchMedicine] = useState("");
+
   const [formObat, setFormObat] = useState({
     name: "",
     description: "",
     stock: "",
+
   });
 
   const [selectedMedicine, setSelectedMedicine] = useState(null);
@@ -51,6 +60,7 @@ const DashboardAdmin = () => {
     setLoading(false);
   };
 
+
   const fetchAdmin = () => {
     try {
       const user = JSON.parse(localStorage.getItem("user"));
@@ -63,6 +73,7 @@ const DashboardAdmin = () => {
   const fetchUsers = async () => {
     try {
       const res = await AxiosInstance.get("/users/lookup");
+
       setUsers(res.data.data || []);
     } catch {
       setUsers([]);
@@ -88,16 +99,19 @@ const DashboardAdmin = () => {
     });
   };
 
+
   const handleSubmitUser = async (e) => {
     e.preventDefault();
 
     if (
       !formUser.nama ||
       !formUser.email ||
+
       !formUser.role ||
       (!editUserId && !formUser.password)
     ) {
       Swal.fire("Oops!", "Isi semua field!", "warning");
+
       return;
     }
 
@@ -112,11 +126,13 @@ const DashboardAdmin = () => {
         await AxiosInstance.post("/users/create", formUser);
       }
 
+
       Swal.fire("Berhasil!", "Data user berhasil disimpan", "success");
       cancelEditUser();
       fetchUsers();
     } catch {
       Swal.fire("Gagal!", "User gagal disimpan", "error");
+
     }
   };
 
@@ -124,14 +140,17 @@ const DashboardAdmin = () => {
     setFormUser({
       nama: u.nama || u.name,
       email: u.email,
+
       password: "",
       role: u.role,
     });
+
 
     setEditUserId(u.id);
   };
 
   const handleDeleteUser = async (id) => {
+
     const result = await Swal.fire({
       title: "Hapus User?",
       text: "Data akan dihapus permanen",
@@ -150,22 +169,27 @@ const DashboardAdmin = () => {
       Swal.fire("Berhasil!", "User berhasil dihapus", "success");
     } catch {
       Swal.fire("Gagal!", "User gagal dihapus", "error");
+
     }
   };
 
   const handleCreateMedicine = async () => {
+
     if (!formObat.name || !formObat.description || !formObat.stock) {
       Swal.fire("Oops!", "Isi semua field!", "warning");
+
       return;
     }
 
     try {
+
       await AxiosInstance.post("/medicines/create", {
         nama_obat: formObat.name,
         deskripsi: formObat.description,
         stok: Number(formObat.stock),
         sediaan: formObat.sediaan || "tablet",
       });
+
 
       setFormObat({
         name: "",
@@ -175,6 +199,7 @@ const DashboardAdmin = () => {
       });
 
       fetchMedicines();
+AD
 
       Swal.fire("Berhasil!", "Obat berhasil ditambahkan", "success");
     } catch (err) {
@@ -207,10 +232,12 @@ const DashboardAdmin = () => {
       Swal.fire("Berhasil!", "Obat berhasil dihapus", "success");
     } catch {
       Swal.fire("Gagal!", "Obat gagal dihapus", "error");
+
     }
   };
 
   const handleUpdateMedicine = async () => {
+
     const stok = Number(selectedMedicine.stock);
 
     if (isNaN(stok) || stok < 0) {
@@ -238,6 +265,7 @@ const DashboardAdmin = () => {
       );
     }
   };
+
 
   const totalStock = medicines.reduce(
     (acc, item) => acc + Number(item.stock || 0),
@@ -298,10 +326,12 @@ const DashboardAdmin = () => {
       
       <div className="adm-main">
         <h1 className="adm-heading">
+
           {loading
             ? "Loading..."
             : `Selamat Datang, ${admin?.nama || "Admin"} 👋`}
         </h1>
+
 
         {menu === "dashboard" && (
           <div className="adm-stats">
@@ -318,17 +348,20 @@ const DashboardAdmin = () => {
             <div className="adm-card">
               <h2>{totalStock}</h2>
               <p>Total Stock</p>
+
             </div>
           </div>
         )}
 
         {menu === "users" && (
           <>
+
             <h2 className="adm-subtitle">Kelola User</h2>
 
             <form className="adm-form" onSubmit={handleSubmitUser}>
               <input
                 className="adm-input"
+
                 placeholder="Nama"
                 value={formUser.nama}
                 onChange={(e) =>
@@ -337,7 +370,9 @@ const DashboardAdmin = () => {
               />
 
               <input
+
                 className="adm-input"
+
                 placeholder="Email"
                 value={formUser.email}
                 onChange={(e) =>
@@ -347,24 +382,32 @@ const DashboardAdmin = () => {
 
               {!editUserId && (
                 <input
+
                   className="adm-input"
+
                   type="password"
                   placeholder="Password"
                   value={formUser.password}
                   onChange={(e) =>
+
                     setFormUser({ ...formUser, password: e.target.value })
+
                   }
                 />
               )}
 
               <select
+
                 className="adm-select"
+
                 value={formUser.role}
                 onChange={(e) =>
                   setFormUser({ ...formUser, role: e.target.value })
                 }
               >
+
                 <option value="">Pilih Role</option>
+
                 <option value="admin">Admin</option>
                 <option value="pengasuhan">Pengasuhan</option>
                 <option value="santri">Santri</option>
@@ -441,16 +484,19 @@ const DashboardAdmin = () => {
                 </tbody>
               </table>
             </div>
+
           </>
         )}
 
         {menu === "medicine" && (
           <>
+
             <h2 className="adm-subtitle">Kelola Obat</h2>
 
             <div className="adm-form">
               <input
                 className="adm-input"
+
                 placeholder="Nama Obat"
                 value={formObat.name}
                 onChange={(e) =>
@@ -459,7 +505,9 @@ const DashboardAdmin = () => {
               />
 
               <input
+
                 className="adm-input"
+
                 placeholder="Deskripsi"
                 value={formObat.description}
                 onChange={(e) =>
@@ -471,6 +519,7 @@ const DashboardAdmin = () => {
               />
 
               <input
+
                 className="adm-input"
                 type="number"
                 placeholder="Stock"
@@ -503,16 +552,20 @@ const DashboardAdmin = () => {
 
             <div className="adm-box">
               <table className="adm-table">
+
                 <thead>
                   <tr>
                     <th>Nama</th>
                     <th>Deskripsi</th>
                     <th>Stock</th>
+
+
                     <th>Aksi</th>
                   </tr>
                 </thead>
 
                 <tbody>
+
                   {filteredMedicines.map((item) => (
                     <tr key={item.id}>
                       <td>{item.name}</td>
@@ -543,10 +596,12 @@ const DashboardAdmin = () => {
                     <tr>
                       <td colSpan="5">Data obat tidak ditemukan</td>
                     </tr>
+
                   )}
                 </tbody>
               </table>
             </div>
+
 
             {selectedMedicine && (
               <div className="adm-box">
@@ -597,6 +652,7 @@ const DashboardAdmin = () => {
                     onClick={() => setSelectedMedicine(null)}
                   >
                     <FiX /> Cancel
+
                   </button>
                 </div>
               </div>

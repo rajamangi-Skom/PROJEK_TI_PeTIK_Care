@@ -7,6 +7,7 @@ import Profile from "./pages/DashboardUser/Profile";
 import Landing from "./pages/LandingPage/Landing";
 import Login from "./pages/Login/Login";
 import DashboardAdmin from "./pages/DashboardAdmin/DashboardAdmin";
+
 import DashboardPengasuhan from "./pages/DashboardPengasuhan/DashboardPengasuhan";
 
 function App() {
@@ -19,9 +20,9 @@ function App() {
       <Route path="/dashboard/history" element={<RiwayatKeluhan />} />
       <Route path="/dashboard/profile" element={<Profile />} />
       <Route path="/dashboard/admin" element={<DashboardAdmin />} />
+
       <Route path="/dashboard/pengasuhan" element={<DashboardPengasuhan />} />
     </Routes>
   );
 }
-
 export default App;

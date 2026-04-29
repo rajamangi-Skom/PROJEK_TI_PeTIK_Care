@@ -1,3 +1,4 @@
+
 .adm-wrap {
   min-height: 100vh;
   display: flex;
@@ -39,14 +40,18 @@
   background: transparent;
   color: white;
   font-size: 15px;
+
   cursor: pointer;
   transition: 0.25s;
 }
 
+
 .adm-menu-btn:hover {
+
   background: rgba(255, 255, 255, 0.15);
   transform: translateX(5px);
 }
+
 
 .adm-main {
   margin-left: 260px;
@@ -201,9 +206,11 @@
 }
 
 .adm-btn-danger {
+
   background: #ef4444;
   color: white;
 }
+
 
 .adm-btn-danger:hover {
   background: #dc2626;
@@ -324,5 +331,6 @@
   .adm-table td {
     padding: 10px;
     font-size: 13px;
+
   }
 }

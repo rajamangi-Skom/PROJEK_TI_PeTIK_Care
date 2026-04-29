@@ -11,10 +11,13 @@ const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
+
   const [cooldown, setCooldown] = useState(0);
+
 
   const redirectByRole = (user) => {
     if (!user) return;
+
 
     if (user.role === "admin") navigate("/dashboard/admin");
     else if (user.role === "pengasuhan") navigate("/dashboard/pengasuhan");
@@ -46,6 +49,7 @@ const Login = () => {
     e.preventDefault();
 
     if (!email || !password) {
+
       Swal.fire({
         icon: "warning",
         title: "Oops...",
@@ -60,6 +64,7 @@ const Login = () => {
         title: "Tunggu Dulu",
         text: `Coba lagi dalam ${formatTime(cooldown)}`,
       });
+
       return;
     }
 
@@ -67,9 +72,10 @@ const Login = () => {
 
     try {
       const res = await axios.post("/api/auth/login", {
-        email,
-        password,
+        email: email,
+        password: password,
       });
+
 
       const token =
         res.data.token ||
@@ -86,11 +92,13 @@ const Login = () => {
           title: "Login Gagal",
           text: "Token / user tidak ditemukan",
         });
+
         return;
       }
 
       localStorage.setItem("token", token);
       localStorage.setItem("user", JSON.stringify(user));
+
 
       Swal.fire({
         icon: "success",
@@ -159,6 +167,8 @@ const Login = () => {
                 placeholder="Masukkan Email"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
+
+
               />
             </div>
 
@@ -169,6 +179,7 @@ const Login = () => {
                 placeholder="Masukkan Password"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
+
               />
             </div>
 
@@ -182,6 +193,7 @@ const Login = () => {
                 : cooldown > 0
                   ? `Tunggu ${formatTime(cooldown)}`
                   : "LOGIN"}
+
             </button>
           </form>
         </div>
