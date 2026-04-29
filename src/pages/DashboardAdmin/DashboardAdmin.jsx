@@ -4,7 +4,6 @@ import "./DashboardAdmin.css";
 
 import Swal from "sweetalert2";
 
-
 import {
   FiUsers,
   FiBox,
@@ -12,10 +11,8 @@ import {
   FiEdit,
   FiTrash,
   FiHome,
-
   FiX,
   FiSearch,
-
 } from "react-icons/fi";
 
 const DashboardAdmin = () => {
@@ -43,7 +40,6 @@ const DashboardAdmin = () => {
     name: "",
     description: "",
     stock: "",
-
   });
 
   const [selectedMedicine, setSelectedMedicine] = useState(null);
@@ -59,7 +55,6 @@ const DashboardAdmin = () => {
     await fetchMedicines();
     setLoading(false);
   };
-
 
   const fetchAdmin = () => {
     try {
@@ -99,14 +94,12 @@ const DashboardAdmin = () => {
     });
   };
 
-
   const handleSubmitUser = async (e) => {
     e.preventDefault();
 
     if (
       !formUser.nama ||
       !formUser.email ||
-
       !formUser.role ||
       (!editUserId && !formUser.password)
     ) {
@@ -126,13 +119,11 @@ const DashboardAdmin = () => {
         await AxiosInstance.post("/users/create", formUser);
       }
 
-
       Swal.fire("Berhasil!", "Data user berhasil disimpan", "success");
       cancelEditUser();
       fetchUsers();
     } catch {
       Swal.fire("Gagal!", "User gagal disimpan", "error");
-
     }
   };
 
@@ -145,12 +136,10 @@ const DashboardAdmin = () => {
       role: u.role,
     });
 
-
     setEditUserId(u.id);
   };
 
   const handleDeleteUser = async (id) => {
-
     const result = await Swal.fire({
       title: "Hapus User?",
       text: "Data akan dihapus permanen",
@@ -169,12 +158,10 @@ const DashboardAdmin = () => {
       Swal.fire("Berhasil!", "User berhasil dihapus", "success");
     } catch {
       Swal.fire("Gagal!", "User gagal dihapus", "error");
-
     }
   };
 
   const handleCreateMedicine = async () => {
-
     if (!formObat.name || !formObat.description || !formObat.stock) {
       Swal.fire("Oops!", "Isi semua field!", "warning");
 
@@ -182,14 +169,12 @@ const DashboardAdmin = () => {
     }
 
     try {
-
       await AxiosInstance.post("/medicines/create", {
         nama_obat: formObat.name,
         deskripsi: formObat.description,
         stok: Number(formObat.stock),
         sediaan: formObat.sediaan || "tablet",
       });
-
 
       setFormObat({
         name: "",
@@ -199,7 +184,7 @@ const DashboardAdmin = () => {
       });
 
       fetchMedicines();
-AD
+  
 
       Swal.fire("Berhasil!", "Obat berhasil ditambahkan", "success");
     } catch (err) {
@@ -232,12 +217,10 @@ AD
       Swal.fire("Berhasil!", "Obat berhasil dihapus", "success");
     } catch {
       Swal.fire("Gagal!", "Obat gagal dihapus", "error");
-
     }
   };
 
   const handleUpdateMedicine = async () => {
-
     const stok = Number(selectedMedicine.stock);
 
     if (isNaN(stok) || stok < 0) {
@@ -265,7 +248,6 @@ AD
       );
     }
   };
-
 
   const totalStock = medicines.reduce(
     (acc, item) => acc + Number(item.stock || 0),
@@ -323,15 +305,13 @@ AD
           <FiLogOut /> Logout
         </button>
       </div>
-      
+
       <div className="adm-main">
         <h1 className="adm-heading">
-
           {loading
             ? "Loading..."
             : `Selamat Datang, ${admin?.nama || "Admin"} 👋`}
         </h1>
-
 
         {menu === "dashboard" && (
           <div className="adm-stats">
@@ -348,20 +328,17 @@ AD
             <div className="adm-card">
               <h2>{totalStock}</h2>
               <p>Total Stock</p>
-
             </div>
           </div>
         )}
 
         {menu === "users" && (
           <>
-
             <h2 className="adm-subtitle">Kelola User</h2>
 
             <form className="adm-form" onSubmit={handleSubmitUser}>
               <input
                 className="adm-input"
-
                 placeholder="Nama"
                 value={formUser.nama}
                 onChange={(e) =>
@@ -370,9 +347,7 @@ AD
               />
 
               <input
-
                 className="adm-input"
-
                 placeholder="Email"
                 value={formUser.email}
                 onChange={(e) =>
@@ -382,30 +357,23 @@ AD
 
               {!editUserId && (
                 <input
-
                   className="adm-input"
-
                   type="password"
                   placeholder="Password"
                   value={formUser.password}
                   onChange={(e) =>
-
                     setFormUser({ ...formUser, password: e.target.value })
-
                   }
                 />
               )}
 
               <select
-
                 className="adm-select"
-
                 value={formUser.role}
                 onChange={(e) =>
                   setFormUser({ ...formUser, role: e.target.value })
                 }
               >
-
                 <option value="">Pilih Role</option>
 
                 <option value="admin">Admin</option>
@@ -484,19 +452,16 @@ AD
                 </tbody>
               </table>
             </div>
-
           </>
         )}
 
         {menu === "medicine" && (
           <>
-
             <h2 className="adm-subtitle">Kelola Obat</h2>
 
             <div className="adm-form">
               <input
                 className="adm-input"
-
                 placeholder="Nama Obat"
                 value={formObat.name}
                 onChange={(e) =>
@@ -505,9 +470,7 @@ AD
               />
 
               <input
-
                 className="adm-input"
-
                 placeholder="Deskripsi"
                 value={formObat.description}
                 onChange={(e) =>
@@ -519,7 +482,6 @@ AD
               />
 
               <input
-
                 className="adm-input"
                 type="number"
                 placeholder="Stock"
@@ -552,20 +514,17 @@ AD
 
             <div className="adm-box">
               <table className="adm-table">
-
                 <thead>
                   <tr>
                     <th>Nama</th>
                     <th>Deskripsi</th>
                     <th>Stock</th>
 
-
                     <th>Aksi</th>
                   </tr>
                 </thead>
 
                 <tbody>
-
                   {filteredMedicines.map((item) => (
                     <tr key={item.id}>
                       <td>{item.name}</td>
@@ -596,12 +555,10 @@ AD
                     <tr>
                       <td colSpan="5">Data obat tidak ditemukan</td>
                     </tr>
-
                   )}
                 </tbody>
               </table>
             </div>
-
 
             {selectedMedicine && (
               <div className="adm-box">
@@ -652,7 +609,6 @@ AD
                     onClick={() => setSelectedMedicine(null)}
                   >
                     <FiX /> Cancel
-
                   </button>
                 </div>
               </div>

@@ -88,84 +88,20 @@ const UserDashboard = () => {
 
   const fetchUserData = async () => {
     try {
-      const token = localStorage.getItem("token");
+      const storedUser = JSON.parse(localStorage.getItem("user"));
 
-      const endpoints = [
-        "/users/search",
-        "/user/profile",
-        "/users/me",
-        "/auth/me",
-        "/me",
-      ];
-
-      let userData = null;
-
-      for (const endpoint of endpoints) {
-        try {
-          let url = endpoint;
-
-          if (endpoint === "/users/search") {
-            let userId = null;
-
-            try {
-              const tokenPayload = JSON.parse(atob(token.split(".")[1]));
-              userId =
-                tokenPayload.id || tokenPayload.userId || tokenPayload.sub;
-              console.log("Decoded user ID from token:", userId);
-            } catch (e) {
-              console.log("Failed to decode token:", e);
-            }
-
-            if (!userId) {
-              userId = localStorage.getItem("userId");
-            }
-
-            if (!userId) {
-              const storedUser = JSON.parse(
-                localStorage.getItem("user") || "{}",
-              );
-              userId = storedUser.id;
-            }
-
-            if (!userId) {
-              console.log("Using fallback user ID");
-              userId = "current-user";
-            }
-
-            url = `/users/search/${userId}`;
-          }
-
-          const res = await AxiosInstance.get(url);
-          userData = res.data;
-          if (userData.nama) {
-            userData.name = userData.nama;
-          }
-          break;
-        } catch (err) {}
+      if (!storedUser) {
+        setUser({ name: "User", email: "" });
+        return;
       }
 
-      if (!userData) {
-        const storedUser = localStorage.getItem("user");
-        if (storedUser) {
-          userData = JSON.parse(storedUser);
-          if (userData.nama && !userData.name) {
-            userData.name = userData.nama;
-          }
-        } else {
-          const userName = localStorage.getItem("userName") || "User";
-          userData = {
-            id: "user-id",
-            name: userName,
-            email: "user@example.com",
-          };
-        }
-      }
-
-      setUser(userData);
-    } catch (error) {
-      console.error("Error fetching user data:", error);
-
-      setUser({ name: "User", email: "user@example.com" });
+      setUser({
+        name: storedUser.nama || storedUser.name,
+        email: storedUser.email,
+      });
+    } catch (err) {
+      console.error("Error fetch user:", err);
+      setUser({ name: "User", email: "" });
     }
   };
 
@@ -238,9 +174,7 @@ const UserDashboard = () => {
           <h3>Menu</h3>
         </div>
         <nav className="sidebar-nav">
-
           <NavLink to="/dashboard" className="sidebar-btn">
-
             <FiHome />
             <span>Home</span>
           </NavLink>
